@@ -459,7 +459,7 @@ def detect_faces():
             
             # Use the stored user data
             id_str = str(id)
-            if confidence > 70:
+            if confidence > 83:
                 # Debug information
                 update_log(f"Detected face with ID: {id}, confidence: {confidence}", "INFO")
                 update_log(f"Available user data keys: {list(user_data.keys())}", "INFO")
