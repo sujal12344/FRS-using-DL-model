@@ -747,7 +747,7 @@ def generate_dataset():
                 face = cv2.resize(face, (200, 200))
                 face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
                 # Standard naming convention: user.ID.IMAGENUMBER.jpg
-                file_name_path = f"data/user.{id}.{img_id}.jpg"
+                file_name_path = f"data/{user_name}.{img_id}.jpg"
                 cv2.imwrite(file_name_path, face)
                 
                 # Update progress
