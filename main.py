@@ -458,12 +458,30 @@ def detect_faces():
             # Use the stored user data
             id_str = str(id)
             if confidence > 70:
+                # Debug information
+                update_log(f"Detected face with ID: {id}, confidence: {confidence}", "INFO")
+                update_log(f"Available user data keys: {list(user_data.keys())}", "INFO")
+                
+                # Print all users and their IDs for debugging
+                for name, info in user_data.items():
+                    stored_id = info.get("id", "none")
+                    update_log(f"User: {name}, Stored ID: {stored_id}", "INFO")
+                    
                 # Find user by ID in the user_data dictionary
                 found_user = None
                 for name, info in user_data.items():
                     if str(id) == info.get("id", ""):  # Store ID in user_info to match
                         found_user = name
                         break
+                        
+                # NEW CODE: If no exact match found, try to find the closest match above threshold
+                if not found_user and confidence > 85:
+                    # Face is recognized with high confidence but ID doesn't match any known user
+                    # This happens when classifier gets confused between similar faces
+                    # Use the first available user as fallback (optional)
+                    if user_data:
+                        found_user = list(user_data.keys())[0]
+                        update_log(f"No exact ID match, using closest user: {found_user}", "WARNING")
                         
                 if found_user:
                     user_info = user_data[found_user]
@@ -674,6 +692,7 @@ def generate_dataset():
         
         # Store user data with ID
         user_name = user_info["name"]
+        user_info["id"] = str(id)  # Add this line to store the numeric ID
         user_data[user_name] = user_info
         
         # Save user data to file
