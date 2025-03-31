@@ -458,8 +458,15 @@ def detect_faces():
             # Use the stored user data
             id_str = str(id)
             if confidence > 70:
-                if id_str in user_data:
-                    user_info = user_data[id_str]
+                # Find user by ID in the user_data dictionary
+                found_user = None
+                for name, info in user_data.items():
+                    if str(id) == info.get("id", ""):  # Store ID in user_info to match
+                        found_user = name
+                        break
+                        
+                if found_user:
+                    user_info = user_data[found_user]
                     name = user_info["name"]
                     college_id = user_info["college_id"]
                     branch = user_info.get("branch", "Unknown")
