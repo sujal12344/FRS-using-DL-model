@@ -674,7 +674,6 @@ def generate_dataset():
         
         # Store user data with ID
         user_name = user_info["name"]
-        user_info["id"] = str(id)  # Store numeric ID for matching
         user_data[user_name] = user_info
         
         # Save user data to file
