@@ -475,18 +475,18 @@ def detect_faces():
                     cv2.putText(img, f"{college_id}, {year}", (x,y-10), 
                               cv2.FONT_HERSHEY_SIMPLEX, 0.6, text_color, 1)
                     
-                    # Mark attendance for this ID if not already marked this session
-                    if id_str not in marked_ids:
-                        marked_ids.add(id_str)
+                    # Mark attendance using name instead of ID
+                    if name not in marked_ids:
+                        marked_ids.add(name)
                         
-                        # Update attendance in our data structure
+                        # Update attendance with name as key
                         today = datetime.now().strftime("%Y-%m-%d")
-                        if id_str not in attendance_data:
-                            attendance_data[id_str] = {"count": 1, "dates": [today]}
+                        if name not in attendance_data:
+                            attendance_data[name] = {"count": 1, "dates": [today]}
                         else:
-                            attendance_data[id_str]["count"] += 1
-                            if today not in attendance_data[id_str]["dates"]:
-                                attendance_data[id_str]["dates"].append(today)
+                            attendance_data[name]["count"] += 1
+                            if today not in attendance_data[name]["dates"]:
+                                attendance_data[name]["dates"].append(today)
                         
                         # Save attendance data to file
                         with open(ATTENDANCE_FILE, 'w') as f:
@@ -495,7 +495,7 @@ def detect_faces():
                         update_log(f"Marked attendance for {name}", "SUCCESS")
                         
                         # Show attendance count
-                        attendance_count = attendance_data[id_str]["count"]
+                        attendance_count = attendance_data[name]["count"]
                         cv2.putText(img, f"Attendance: {attendance_count}", (x,y+h+20), 
                                   cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 1)
                 else:
@@ -504,7 +504,7 @@ def detect_faces():
                     cv2.putText(img, f"{name} ({confidence}%)", (x,y-10), 
                               cv2.FONT_HERSHEY_SIMPLEX, 0.7, text_color, 2)
             else:
-                cv2.putText(img, f"UNKNOWN ({confidence}%)", (x,y-10), 
+                cv2.putText(img, "UNKNOWN", (x,y-10), 
                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2)
         
         return img
@@ -666,8 +666,9 @@ def generate_dataset():
             id = max(existing_ids) + 1
         
         # Store user data with ID
-        id_str = str(id)
-        user_data[id_str] = user_info
+        user_name = user_info["name"]
+        user_info["id"] = str(id)  # Store numeric ID for matching
+        user_data[user_name] = user_info
         
         # Save user data to file
         with open(USER_DATA_FILE, 'w') as f:
