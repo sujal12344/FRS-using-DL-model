@@ -1,0 +1,26 @@
+{
+  "sujal": {
+    "name": "sujal",
+    "college_id": "68475312",
+    "branch": "Computer Science",
+    "year": "First Year (FE)",
+    "gender": "Male",
+    "id": "1"
+  },
+  "aayush": {
+    "name": "aayush",
+    "college_id": "5864531",
+    "branch": "Computer Science",
+    "year": "First Year (FE)",
+    "gender": "Male",
+    "id": "2"
+  },
+  "aaaaaaaaaaaaaa": {
+    "name": "aaaaaaaaaaaaaa",
+    "college_id": "5873451",
+    "branch": "Computer Science",
+    "year": "First Year (FE)",
+    "gender": "Male",
+    "id": "3"
+  }
+}
