@@ -253,8 +253,10 @@ status_bar.pack(side=tk.BOTTOM, fill=tk.X)
 user_data = {}
 if os.path.exists(USER_DATA_FILE):
     try:
-        with open(USER_DATA_FILE, 'r') as f:
-            user_data = json.load(f)
+        print(f"getting {USER_DATA_FILE} from file")
+        with open(USER_DATA_FILE, 'r') as file:
+            user_data = json.load(file)
+            print(f"\n Loaded user data: ", user_data)
     except Exception as e:
         print(f"Error loading user data: {e}")
 
@@ -262,8 +264,8 @@ if os.path.exists(USER_DATA_FILE):
 attendance_data = {}
 if os.path.exists(ATTENDANCE_FILE):
     try:
-        with open(ATTENDANCE_FILE, 'r') as f:
-            attendance_data = json.load(f)
+        with open(ATTENDANCE_FILE, 'r') as file:
+            attendance_data = json.load(file)
     except Exception as e:
         print(f"Error loading attendance data: {e}")
 
