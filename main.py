@@ -376,10 +376,10 @@ def train_classifier():
                 
                 # Extract ID from the second part of the filename
                 parts = os.path.basename(image_path).split('.')
-                if len(parts) >= 2:
-                    id = int(parts[1])
+                if len(parts) >= 3:
+                    user_id = int(parts[1])  # Now the unique user ID
                     faces.append(imageNp)
-                    ids.append(id)
+                    ids.append(user_id)
                 
                 # Update progress
                 progress = (i + 1) / len(path) * 100
@@ -475,15 +475,6 @@ def detect_faces():
                     if str(id) == info.get("id", ""):  # Store ID in user_info to match
                         found_user = name
                         break
-                        
-                # NEW CODE: If no exact match found, try to find the closest match above threshold
-                if not found_user and confidence > 85:
-                    # Face is recognized with high confidence but ID doesn't match any known user
-                    # This happens when classifier gets confused between similar faces
-                    # Use the first available user as fallback (optional)
-                    if user_data:
-                        found_user = list(user_data.keys())[0]
-                        update_log(f"No exact ID match, using closest user: {found_user}", "WARNING")
                         
                 if found_user:
                     user_info = user_data[found_user]
@@ -680,12 +671,12 @@ def generate_dataset():
         
         global user_data
         
-        # Find existing IDs in user_data as well
-        for id_str in user_data:
+        # Find existing IDs in user_data correctly
+        for user in user_data.values():
             try:
-                existing_ids.append(int(id_str))
-            except:
-                pass
+                existing_ids.append(int(user["id"]))
+            except Exception as e:
+                continue
         
         # Get a new unique ID
         id = 1
@@ -749,7 +740,7 @@ def generate_dataset():
                 face = cv2.resize(face, (200, 200))
                 face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
                 # Standard naming convention: user.ID.IMAGENUMBER.jpg
-                file_name_path = f"data/{user_name}.{img_id}.jpg"
+                file_name_path = f"data/{user_name}.{user_info['id']}.{img_id}.jpg"
                 cv2.imwrite(file_name_path, face)
                 
                 # Update progress
