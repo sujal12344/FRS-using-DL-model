@@ -589,6 +589,7 @@ def detect_faces():
 def generate_dataset():
     # Validate user input
     user_info = validate_user_input()
+    print(f"User info: {user_info}")
     if not user_info:
         return
     
