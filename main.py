@@ -695,7 +695,7 @@ def generate_dataset():
         
         update_log(f"Using ID {id} for user: {user_name}", "INFO")
         img_id = 0
-        target_samples = 45
+        target_samples = 1045
         
         window_name = "Dataset Collection"
         cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
