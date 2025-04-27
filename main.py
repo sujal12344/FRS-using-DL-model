@@ -458,6 +458,8 @@ def detect_faces():
             confidence = int(100*(1-pred/300))
             
             # Use the stored user data
+
+            
             id_str = str(id)
             if confidence > 83:
                 # Debug information
